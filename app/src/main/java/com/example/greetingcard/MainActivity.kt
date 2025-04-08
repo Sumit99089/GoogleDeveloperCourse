@@ -359,5 +359,241 @@ fun main() {
 
     println("The number of characters in your favorite actor's name is $lengthOfName.")-> Output: 0
 }
+
+Oops:
+
+Encapsulation. Wraps the related properties and methods that perform action on those properties in a class.
+For example, consider your mobile phone. It encapsulates a camera, display, memory cards, and several other hardware
+and software components. You don't have to worry about how components are wired internally.
+
+Abstraction. An extension to encapsulation. The idea is to hide the internal implementation logic as much as possible.
+For example, to take a photo with your mobile phone, all you need to do is open the camera app, point your phone to the
+scene that you want to capture, and click a button to capture the photo. You don't need to know how the camera app is built
+or how the camera hardware on your mobile phone actually works. In short, the internal mechanics of the camera app and how a
+mobile camera captures the photos are abstracted to let you perform the tasks that matter.
+
+Inheritance. Enables you to build a class upon the characteristics and behavior of other classes by establishing a parent-child
+relationship. For example, there are different manufacturers who produce a variety of mobile devices that run Android OS, but the
+UI for each of the devices is different. In other words, the manufacturers inherit the Android OS feature and build their
+customizations on top of it.
+
+Polymorphism. The word is an adaptation of the Greek root poly-, which means many, and -morphism, which means forms.
+Polymorphism is the ability to use different objects in a single, common way. For example, when you connect
+a Bluetooth speaker to your mobile phone, the phone only needs to know that there's a device that can play audio over Bluetooth.
+However, there are a variety of Bluetooth speakers that you can choose from and your phone doesn't need to know how
+to work with each of them specifically.
+
+ class ClassName{
+    fun sum(num1: Int, num2: Int):Int{
+        return num1+num2
+    }
+ }
+
+ fun main(){
+    val x = ClassName()  // x is an object of class ClassName
+    val result = x.sum(5,10)
+ }
+
+ Class with methods, properties and constructors:
+
+ class SmartDevice {
+Property/Attributes:
+
+    val name = "Android TV"
+    val category = "Entertainment"
+    var deviceStatus = "online"
+Methods:
+
+    fun turnOn() {
+        println("Smart device is turned on.")
+    }
+
+    fun turnOff() {
+        println("Smart device is turned off.")
+    }
+}
+fun main() {
+    val smartTvDevice = SmartDevice()
+    println("Device name is: ${smartTvDevice.name}")
+    smartTvDevice.turnOn()
+    smartTvDevice.turnOff()
+}
+
+More on Class Properties:
+var speakerVolume = 2
+    get() = field  (field refers to the backing field of the property speakerVolume, meaning the place where the value of speakerVolume is stored)
+    set(value) {
+        field = value(Don't update the speakerVolume directly like "speakerVolume = value" as it will recursively call set function.
+    }
+
+
+set(value) {
+    if (value >= 0) counter = value // ❌ leads to recursion
+}
+Because this will call the setter again!
+
+So it would go like this:
+
+counter = 5 is called → calls the setter.
+Inside setter, you do counter = 5 → which calls the setter again.
+This happens over and over, creating infinite recursion → leading to a stack overflow error.
+
+
+Getters and setters are used to access and modify and set the value of Class attributes.
+Understanding field and value in a Setter:
+
+field: Represents the property's backing field, which is the actual storage location for
+the property's value. It allows direct access to the property's current value within the
+setter.
+
+value: Represents the new value being assigned to the property. When you assign a value
+to the property, this identifier holds the value that is being set.
+
+Primary Constructor:
+
+class ClassName constructor(parameters) {
+    // Class body
+    init{
+        primary constructor body
+    }
+}
+
+class ClassName(parameters) {
+    // Class body
+    init{
+        primary constructor body
+    }
+}
+The above declarations have no key differences. If the primary constructor is of public type
+it is ok to remove the constructor keyword  like in the 2nd one above. If it of private/protected,
+then :
+
+class ClassName private/protected constructor(parameters)//primary constructor{
+    init{
+
+    }
+}
+
+If you declare parameters of primary constructor using val/var x:String , then x is both constructor parameter and class property/attributes
+
+
+Secondary Constructor:
+class ClassName(primaryConstructorParameters) {
+    var classAttributes = //anything
+    init{
+        primary constructor body
+    }
+    constructor(secondaryConstructorParameter) : this(values from secondary constructors that primary constructor wants) {
+        secondary constructor body
+    }
+}
+
+So if we make an object of the above class like:
+val x = ClassName(primaryConstructorParameters)
+then only primary constructor is executed.
+
+val x = ClassName(secondaryConstructorParameters)
+then the secondary constructor is called and the secondary constructor calls primary constructor
+using :this(parameters) and only after primary constructor runs will secondary one runs.
+
+Example:
+class SmartDevice(val name: String, val category: String) {
+    var deviceStatus = "online"
+
+    constructor(name: String, category: String, statusCode: Int) : this(name, category) {
+        deviceStatus = when (statusCode) {
+            0 -> "offline"
+            1 -> "online"
+            else -> "unknown"
+        }
+    }
+}
+
+If I make an object like val x = SmartDevice("AC","Electrical Appliance",0), then secondary constructor
+is called but the secondary constructor first calls primary constructor using this(name, category) and passes
+the name and category it gets as arguments to primary constructor and only after primary runs will secondary run.
+
+Inheritance:{open keyword makes a class possible to be inherited}
+
+open class SuperClass{
+}
+
+class SubClass : SuperClass{
+}
+
+Example:
+
+open class SmartDevice(val name: String, val category: String) {
+    ...
+}
+
+class SmartTvDevice(deviceName: String, deviceCategory: String) :
+    SmartDevice(name = deviceName, category = deviceCategory) {
+}
+
+SmartTvDevice IS-A SmartDevice --ISA Relationship when one class Inherits other
+Reuse code with open, override, and super.
+
+Example:
+open class SmartDevice {
+    open val type = "Unknown"
+    open fun turnOn() { println("Device turned on") }
+}
+
+class SmartTvDevice : SmartDevice() {
+    override val type = "Smart TV" // Custom type
+    override fun turnOn() {
+        super.turnOn() // Reuse parent's code
+        println("TV channel: $channel") // Add TV-specific logic
+    }
+}
+
+SmartHome HAS-A SmartTvDevice -- HASA Relationship when one class has an instance of another class
+One class contains another class (e.g., SmartHome has a SmartTvDevice).
+Used when objects are related but don’t share an "IS-A" relationship.
+
+class SmartHome(val smartTvDevice :SmartTvDevice){
+    fun turnOnTv() {
+        smartTvDevice.turnOn()
+    }
+}
+
+Steps to Override:
+
+Mark the parent method/property as open.
+Use override in the child class.
+
+Use super to call the parent’s original method.
+
+Visibility Modifiers/Access Specifiers:
+
+public. Default visibility modifier. Makes the declaration accessible everywhere.
+The properties and methods that you want used outside the class are marked as public.
+
+private. Makes the declaration accessible in the same class or source file.
+
+protected. Makes the declaration accessible in subclasses. The properties and methods
+that you want used in the class that defines them and the subclasses are marked with the protected visibility modifier.
+
+internal. Makes the declaration accessible in the same module. The internal modifier
+is similar to private, but you can access internal properties and methods from outside
+the class as long as it's being accessed in the same module.
+
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
