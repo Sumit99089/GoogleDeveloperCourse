@@ -285,9 +285,79 @@ fun printStop() = println("Stop")
 val messageFunction: () -> Unit = ::printStop
 
 
+when (x) {
+    in 1..10 -> print("x is in the range")
+    in validNumbers -> print("x is valid")
+    !in 10..20 -> print("x is outside the range")
+    else -> print("none of the above")
+}
+
+for (i in 1..3) {
+    print(i)
+}
+
+for (i in 6 downTo 0 step 2) {
+    print(i)
+}
 
 
+for (i in array.indices) {
+    print(array[i])
+}
+
+To use methods on a null variable/Access a property of a nullable variable:
 
 
+1. Use the ?. safe call operator
 
+Syntax: nullableVariable ?. method/property
+
+fun main() {
+    var favoriteActor: String? = null
+    println(favoriteActor?.length)-> Output: null
+    favoriteActor = "Sandra Oh"
+    println(favoriteActor?.length)-> Output: 9
+}
+
+2.Use the !! not-null assertion operator
+
+Syntax: nullableVariable !!. method/property
+
+fun main() {
+    var favoriteActor: String? = "Sandra Oh"
+    println(favoriteActor!!.length) -> Output: 9
+    favoriteActor = null
+    println(favoriteActor?.length)-> Throws NullPointerException(https://developer.android.com/static/codelabs/basic-android-kotlin-compose-nullability/img/c74ab53164de0c01_1440.png)
+}
+
+3.Using if/else statements
+
+fun main() {
+    var favoriteActor: String? = null
+
+    if(favoriteActor != null) {
+      println("The number of characters in your favorite actor's name is ${favoriteActor.length}.")
+    } else {
+      println("You didn't input a name.")
+    }
+}
+
+4.Use the ?: Elvis operator
+
+val variable = nullableVariable?.method/property ?: defaultValue
+
+fun main() {
+    var favoriteActor: String? = "Sandra Oh"
+
+    val lengthOfName = favoriteActor?.length ?: 0
+
+    println("The number of characters in your favorite actor's name is $lengthOfName.")-> Output: 9
+
+    favoriteActor = null
+
+    val lengthOfName = favoriteActor?.length ?: 0
+
+    println("The number of characters in your favorite actor's name is $lengthOfName.")-> Output: 0
+}
  */
+
