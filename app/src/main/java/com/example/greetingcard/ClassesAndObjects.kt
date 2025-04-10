@@ -230,9 +230,7 @@ class RangeRegulator(
 fun main() {
     var smartDevice1 = SmartTvDevice("Android TV", "Entertainment")
 
-
     var smartDevice2 = SmartLightDevice("Google Light", "Utility")
-
 
     var smartHome : SmartHome = SmartHome(smartTvDevice = smartDevice1, smartLightDevice = smartDevice2)
 
@@ -241,14 +239,20 @@ fun main() {
     smartHome.decreaseTvVolume()
     smartHome.increaseTvChannel()
     smartHome.decreaseTvChannel()
-
-
+    smartHome.smartTvInfo()
+    println(smartHome.deviceTurnOnCount)
+    smartHome.increaseLightBrightness()
+    smartHome.decreaseLightBrightness()
+    smartHome.smartLightInfo()
+    smartHome.turnOffAllDevices()
+    println(smartHome.deviceTurnOnCount)
 }
 
 
 
 
 /*
+
 Notes on Oops:
 
 Encapsulation. Wraps the related properties and methods that perform action on those properties in a class.
