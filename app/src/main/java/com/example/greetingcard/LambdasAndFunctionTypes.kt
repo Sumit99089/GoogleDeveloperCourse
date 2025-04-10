@@ -1,7 +1,9 @@
 package com.example.greetingcard
 // Using Functions as Data Types, taking functions as inputs, returning a function etc.
-
-//A function that returns a function or takes a function as an argument is called a higher-order function
+// Functions are first class constructs in kotlin meaning they can be assigned to a variable, passed
+// as an argument or even be returned
+//A function that returns a function or takes a function as an argument is called a higher-order
+// function
 fun main(){
 
     var x = :: trick1 // or var x = trick1().
@@ -13,8 +15,8 @@ fun main(){
 
     var z= trickOrTreat1(false) {it->
         return@trickOrTreat1 "Take $it cupcakes"
-    //return@trickOrTreat statement specifies that the return is from the lambda passed to trickOrTreat,
-    //not from the enclosing function(here enclosing fun = main fun.
+    //return@trickOrTreat statement specifies that the return is from the lambda passed to
+    //trickOrTreat, not from the enclosing function(here enclosing fun = main fun.
     }
     z()
     var q= trickOrTreat1(false) {
@@ -56,9 +58,10 @@ var treat: () -> Unit = {
 fun trickOrTreat1(isTrick: Boolean, extraTreat : (Int)->String ): () -> Unit {
     if(isTrick)
         return trick
-    else
+    else{
         extraTreat(5)
         return treat
+    }
 }
 
 fun trickOrTreat2(isTrick: Boolean, extraTreat : ((Int)->String)? = null ): () -> Unit {
