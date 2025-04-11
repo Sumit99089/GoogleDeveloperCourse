@@ -83,6 +83,25 @@ fun trickOrTreat2(isTrick: Boolean, extraTreat : ((Int)->String)? = null ): () -
     }
 }
 
+//Modifier.wrapContentSize(Alignment.Center) use:
+//Content Sizing: Ensures a composable only consumes as much space as its content requires.
+//Alignment within Parent: Positions the composable content within its parent using the specified
+//alignment, such as centering or aligning to edges.
+
+//Composables are stateless by default, which means that they don't hold a value and can be
+//recomposed any time by the system, which results in the value being reset. However, Compose
+//provides a convenient way to avoid this. Composable functions can store an object in memory
+//using the remember composable.
+//
+//Make the result variable a remember composable.
+//The remember composable requires a function to be passed.
+//
+//In the remember composable body, pass in a mutableStateOf() function and then pass the function a
+// 1 argument.
+//The mutableStateOf() function returns an observable. You learn more about observables later,
+//but for now this basically means that when the value of the result variable changes, a
+//recomposition is triggered, the value of the result is reflected, and the UI refreshes.
+
 
 
 
